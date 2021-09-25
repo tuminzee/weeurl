@@ -7,10 +7,26 @@
 var app = require('../app');
 var debug = require('debug')('weeurl:server');
 var http = require('http');
+var mongoose = require('mongoose');
+require('dotenv').config();
 
 /**
  * Get port from environment and store in Express.
  */
+
+// db connection
+
+// try{
+//   mongoose.connect(process.env.MONGO_URL);
+// }
+// catch(err){
+
+// }
+
+mongoose.connect(process.env.MONGO_URL).then( () => console.info("Db connectoin established")).catch(error => {
+  console.error(error);
+  process.exit(1);
+});
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -86,5 +102,7 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
   debug('Listening on ' + bind);
+ 
 }
